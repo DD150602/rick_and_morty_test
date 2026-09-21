@@ -1,68 +1,95 @@
 import Image from "next/image";
+import { apiCall } from "@/lib/rickAndMorty";
 
-export default function Home() {
+export default async function Home() {
+  const data = await apiCall();
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
+    <div className="flex flex-col items-center justify-center font-sans">
+      <h1 className="text-3xl mt-2">Rick and Morty API wrapper</h1>
+      <main className="grid grid-cols-2 w-full max-w-5xl items-center justify-between py-20 sm:items-start gap-4">
+        {data.results.map((data) => (
           <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+            key={data.id}
+            href="/"
+            className="block rounded-md border border-gray-300 p-4 shadow-sm sm:p-6"
           >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
+            <div className="sm:flex sm:justify-between sm:gap-4 lg:gap-6">
+              <div className="sm:order-last sm:shrink-0">
+                <Image
+                  loading="eager"
+                  width={240}
+                  height={240}
+                  alt="imamgen"
+                  src={data.image}
+                  className="size-16 rounded-full object-cover sm:size-18"
+                />
+              </div>
+  
+              <div className="mt-4 sm:mt-0">
+                <h3 className="text-lg font-medium text-pretty text-white/90">
+                  {data.name}
+                </h3>
+  
+                <p className="mt-1 text-sm text-white/80">status: {data.status}</p>
+  
+                <p className="mt-4 line-clamp-2 text-sm text-pretty text-white/70">
+                  Gender: {data.gender}, Species: {data.species}, Origin: {data.origin.name}, Location: {data.location.name}
+                </p>
+              </div>
+            </div>
+  
+            <dl className="mt-6 flex gap-4 lg:gap-6">
+              <div className="flex items-center gap-2">
+                <dt className="text-white/70">
+                  <span className="sr-only"> Published on </span>
+  
+                  <svg
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth="1.5"
+                    stroke="currentColor"
+                    className="size-5"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5"
+                    />
+                  </svg>
+                </dt>
+  
+                <dd className="text-xs text-white/66">{data.created.split("T")[0]}</dd>
+              </div>
+  
+              <div className="flex items-center gap-2">
+                <dt className="text-white/66">
+                  <span className="sr-only"> Reading time </span>
+  
+                  <svg
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth="1.5"
+                    stroke="currentColor"
+                    className="size-5"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25"
+                    />
+                  </svg>
+                </dt>
+  
+                <dd className="text-xs text-white/66">{data.type}</dd>
+              </div>
+            </dl>
           </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
+        ))}
       </main>
     </div>
   );
