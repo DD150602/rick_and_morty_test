@@ -1,9 +1,10 @@
 "use client";
-import { useState, useEffect, useCallback } from "react";
+import { useEffect, useState, useCallback } from "react";
 import Image from "next/image";
-import { Paginator } from "@/components/Paginator";
-import { apiCall } from "@/lib/rickAndMorty";
 import type { CharacterResponse } from "@/types/character";
+import { Paginator } from "@/components/Paginator";
+import { SearchBar } from "@/components/SearchBar";
+import { apiCall } from "@/lib/rickAndMorty";
 
 export default function Home() {
   const [data, setData] = useState<CharacterResponse | null>(null);
@@ -32,6 +33,9 @@ export default function Home() {
   return (
     <div className="flex flex-col items-center justify-center font-sans">
       <h1 className="text-3xl mt-2">Rick and Morty API wrapper</h1>
+      <div className="mt-8 flex w-full max-w-5xl justify-end px-4">
+        <SearchBar placeholder="Search Character" />
+      </div>
       {error && <p className="text-red-500">{error}</p>}
       {isLoading && <p>Loading...</p>}
       {data && (
