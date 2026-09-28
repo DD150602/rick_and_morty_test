@@ -5,6 +5,7 @@ import type { CharacterResponse } from "@/types/character";
 import { Paginator } from "@/components/Paginator";
 import { SearchBar } from "@/components/SearchBar";
 import { apiCall } from "@/lib/rickAndMorty";
+import Link from "next/link";
 
 export default function CharactersPage() {
   const [data, setData] = useState<CharacterResponse | null>(null);
@@ -41,9 +42,9 @@ export default function CharactersPage() {
       {data && (
         <main className="grid grid-cols-2 w-full max-w-5xl items-center justify-between py-20 sm:items-start gap-4">
           {data.results.map((data) => (
-            <a
+            <Link
               key={data.id}
-              href="/characters"
+              href={`/characters/${data.id}`}
               className="block rounded-md border border-gray-300 p-4 shadow-sm sm:p-6"
             >
               <div className="sm:flex sm:justify-between sm:gap-4 lg:gap-6">
@@ -124,7 +125,7 @@ export default function CharactersPage() {
                   <dd className="text-xs text-white/66">{data.type}</dd>
                 </div>
               </dl>
-            </a>
+            </Link>
           ))}
         </main>
       )}
