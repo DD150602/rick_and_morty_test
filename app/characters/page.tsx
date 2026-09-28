@@ -1,22 +1,25 @@
 "use client";
-import { useEffect, useState, useCallback } from "react";
 import Image from "next/image";
-import type { CharacterResponse } from "@/types/character";
+import Link from "next/link";
+import { useCallback, useEffect, useState } from "react";
 import { Paginator } from "@/components/Paginator";
 import { SearchBar } from "@/components/SearchBar";
-import { apiCall } from "@/lib/rickAndMorty";
-import Link from "next/link";
+import { apiCall, type CharacterFilters } from "@/lib/rickAndMorty";
+import type { CharacterResponse } from "@/types/character";
+
+const DEFAULT_FILTERS: CharacterFilters = { name: "", status: "", gender: "" };
 
 export default function CharactersPage() {
   const [data, setData] = useState<CharacterResponse | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [activeFilters, setActiveFilters] = useState(DEFAULT_FILTERS);
 
-  const loadPage = useCallback(async (page: number) => {
+  const loadPage = useCallback(async (page: number, filters: CharacterFilters) => {
     try {
       setIsLoading(true);
-      const response = await apiCall(page);
+      const response = await apiCall(page, filters);
       setCurrentPage(page);
       setData(response);
       setError(null);
@@ -28,14 +31,19 @@ export default function CharactersPage() {
   }, []);
 
   useEffect(() => {
-    loadPage(1);
+    loadPage(1, DEFAULT_FILTERS);
   }, [loadPage]);
+
+  const handleSearch = (filters: CharacterFilters) => {
+    setActiveFilters(filters);
+    loadPage(1, filters);
+  };
 
   return (
     <div className="flex flex-col items-center justify-center font-sans">
       <h1 className="text-3xl mt-2">Rick and Morty API wrapper</h1>
       <div className="mt-8 flex w-full max-w-5xl justify-end px-4">
-        <SearchBar placeholder="Search Character" />
+        <SearchBar placeholder="Search Character" onSearch={handleSearch} />
       </div>
       {error && <p className="text-red-500">{error}</p>}
       {isLoading && <p>Loading...</p>}
@@ -134,7 +142,7 @@ export default function CharactersPage() {
           totalPages={data.info.pages}
           currentPage={currentPage}
           isLoading={isLoading}
-          handlePageChange={loadPage}
+          handlePageChange={(page) => loadPage(page, activeFilters)}
         />
       )}
     </div>
