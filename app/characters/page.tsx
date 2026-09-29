@@ -40,103 +40,56 @@ export default function CharactersPage() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center font-sans">
-      <h1 className="text-3xl mt-2">Rick and Morty API wrapper</h1>
-      <div className="mt-8 flex w-full max-w-5xl justify-end px-4">
+    <div className="flex flex-col items-center justify-center">
+      <h1 className="mt-2 w-full px-4 text-center text-2xl sm:text-3xl">
+        Characters
+      </h1>
+
+      <div className="mt-6 w-full max-w-5xl px-4 sm:mt-8">
         <SearchBar placeholder="Search Character" onSearch={handleSearch} />
       </div>
-      {error && <p className="text-red-500">{error}</p>}
-      {isLoading && <p>Loading...</p>}
+
+      {error && <p className="mt-4 text-center text-red-500">{error}</p>}
+      {isLoading && <p className="mt-4 text-center">Loading...</p>}
+
       {data && (
-        <main className="grid grid-cols-2 w-full max-w-5xl items-center justify-between py-20 sm:items-start gap-4">
-          {data.results.map((data) => (
+        <main className="grid w-full max-w-5xl grid-cols-1 gap-4 px-4 py-8 sm:grid-cols-2 sm:py-12 lg:grid-cols-3">
+          {data.results.map((character) => (
             <Link
-              key={data.id}
-              href={`/characters/${data.id}`}
-              className="block rounded-md border border-gray-300 p-4 shadow-sm sm:p-6"
+              key={character.id}
+              href={`/characters/${character.id}`}
+              className="flex items-center justify-between gap-4 rounded-md border border-gray-300 p-4 shadow-sm"
             >
-              <div className="sm:flex sm:justify-between sm:gap-4 lg:gap-6">
-                <div className="sm:order-last sm:shrink-0">
-                  <Image
-                    loading="eager"
-                    width={240}
-                    height={240}
-                    alt="imamgen"
-                    src={data.image}
-                    className="size-16 rounded-full object-cover sm:size-18"
-                  />
-                </div>
-                <div className="mt-4 sm:mt-0">
-                  <h3 className="text-lg font-medium text-pretty text-white/90">
-                    {data.name}
-                  </h3>
+              <div className="min-w-0">
+                <h2 className="text-lg font-medium break-words text-white/90">
+                  {character.name}
+                </h2>
 
-                  <p className="mt-1 text-sm text-white/80">
-                    status: {data.status}
-                  </p>
+                <p className="mt-2 text-sm text-white/80">
+                  Status: {character.status}
+                </p>
 
-                  <p className="mt-4 line-clamp-2 text-sm text-pretty text-white/70">
-                    Gender: {data.gender}, Species: {data.species}, Origin:{" "}
-                    {data.origin.name}, Location: {data.location.name}
-                  </p>
-                </div>
+                <p className="mt-2 text-sm text-white/70">
+                  Species: {character.species}
+                </p>
+
+                <p className="mt-2 text-sm break-words text-white/70">
+                  Origin: {character.origin.name}
+                </p>
               </div>
 
-              <dl className="mt-6 flex gap-4 lg:gap-6">
-                <div className="flex items-center gap-2">
-                  <dt className="text-white/70">
-                    <span className="sr-only"> Published on </span>
-
-                    <svg
-                      aria-hidden="true"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      strokeWidth="1.5"
-                      stroke="currentColor"
-                      className="size-5"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5"
-                      />
-                    </svg>
-                  </dt>
-
-                  <dd className="text-xs text-white/66">
-                    {data.created.split("T")[0]}
-                  </dd>
-                </div>
-
-                <div className="flex items-center gap-2">
-                  <dt className="text-white/66">
-                    <span className="sr-only"> Reading time </span>
-
-                    <svg
-                      aria-hidden="true"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      strokeWidth="1.5"
-                      stroke="currentColor"
-                      className="size-5"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25"
-                      />
-                    </svg>
-                  </dt>
-
-                  <dd className="text-xs text-white/66">{data.type}</dd>
-                </div>
-              </dl>
+              <Image
+                width={240}
+                height={240}
+                alt={character.name}
+                src={character.image}
+                className="size-16 shrink-0 rounded-full object-cover"
+              />
             </Link>
           ))}
         </main>
       )}
+
       {data && (
         <Paginator
           totalPages={data.info.pages}

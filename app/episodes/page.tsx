@@ -39,23 +39,23 @@ export default function EpisodesPage() {
 
   return (
     <div className="flex flex-col items-center justify-center">
-      <h1 className="text-3xl mt-2">Episodes</h1>
+      <h1 className="mt-2 text-2xl sm:text-3xl">Episodes</h1>
 
-      <div className="mt-8 flex w-full max-w-5xl justify-end px-4">
+      <div className="mt-6 w-full max-w-5xl px-4 sm:mt-8">
         <EpisodeSearchBar placeholder="Search Episode" onSearch={handleSearch} />
       </div>
 
-      {error && <p className="text-red-500">{error}</p>}
-      {isLoading && <p>Loading...</p>}
+      {error && <p className="mt-4 text-center text-red-500">{error}</p>}
+      {isLoading && <p className="mt-4 text-center">Loading...</p>}
 
       {data && (
-        <main className="grid grid-cols-2 w-full max-w-5xl items-center justify-between py-20 gap-4">
+        <main className="grid w-full max-w-5xl grid-cols-1 gap-4 px-4 py-8 sm:grid-cols-2 sm:py-12 lg:grid-cols-3">
           {data.results.map((episode) => (
             <div
               key={episode.id}
               className="block rounded-md border border-gray-300 p-4 shadow-sm"
             >
-              <h2 className="text-lg font-medium text-white/90">
+              <h2 className="text-lg font-medium break-words text-white/90">
                 {episode.name}
               </h2>
 
