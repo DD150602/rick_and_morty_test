@@ -8,6 +8,7 @@ export const Header = () => {
         <h1 className="text-lg tracking-wide">Titulo de la pagina</h1>
       </Link>
       <nav className="flex items-center justify-center gap-2">
+        <CustomLink href="/favorites" linkName="Favorites" />
         <CustomLink href="/characters" linkName="Characters" />
         <CustomLink href="/episodes" linkName="Episodes" />
       </nav>
