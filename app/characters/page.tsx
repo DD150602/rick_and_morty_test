@@ -6,6 +6,7 @@ import { Paginator } from "@/components/Paginator";
 import { SearchBar } from "@/components/SearchBar";
 import { apiCall, type CharacterFilters } from "@/lib/rickAndMorty";
 import type { CharacterResponse } from "@/types/character";
+import { FavoriteButton } from "@/components/FaboriteButton";
 
 const DEFAULT_FILTERS: CharacterFilters = { name: "", status: "", gender: "" };
 
@@ -16,19 +17,22 @@ export default function CharactersPage() {
   const [error, setError] = useState<string | null>(null);
   const [activeFilters, setActiveFilters] = useState(DEFAULT_FILTERS);
 
-  const loadPage = useCallback(async (page: number, filters: CharacterFilters) => {
-    try {
-      setIsLoading(true);
-      const response = await apiCall(page, filters);
-      setCurrentPage(page);
-      setData(response);
-      setError(null);
-    } catch (error) {
-      setError(error instanceof Error ? error.message : String(error));
-    } finally {
-      setIsLoading(false);
-    }
-  }, []);
+  const loadPage = useCallback(
+    async (page: number, filters: CharacterFilters) => {
+      try {
+        setIsLoading(true);
+        const response = await apiCall(page, filters);
+        setCurrentPage(page);
+        setData(response);
+        setError(null);
+      } catch (error) {
+        setError(error instanceof Error ? error.message : String(error));
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [],
+  );
 
   useEffect(() => {
     loadPage(1, DEFAULT_FILTERS);
@@ -55,6 +59,9 @@ export default function CharactersPage() {
               href={`/characters/${data.id}`}
               className="block rounded-md border border-gray-300 p-4 shadow-sm sm:p-6"
             >
+              <div className="top-3">
+                <FavoriteButton characterId={data.id} />
+              </div>
               <div className="sm:flex sm:justify-between sm:gap-4 lg:gap-6">
                 <div className="sm:order-last sm:shrink-0">
                   <Image
@@ -76,7 +83,7 @@ export default function CharactersPage() {
                   </p>
 
                   <p className="mt-4 line-clamp-2 text-sm text-pretty text-white/70">
-                    Gender: {data.gender}, Species: {data.species}, Origin:{" "}
+                    Gender: {data.gender}, Species: {data.species}, Origin:
                     {data.origin.name}, Location: {data.location.name}
                   </p>
                 </div>
