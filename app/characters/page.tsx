@@ -1,27 +1,36 @@
 "use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
+
+import { FavoriteButton } from "@/components/FaboriteButton";
 import { Paginator } from "@/components/Paginator";
 import { SearchBar } from "@/components/SearchBar";
 import { apiCall, type CharacterFilters } from "@/lib/rickAndMorty";
 import type { CharacterResponse } from "@/types/character";
-import { FavoriteButton } from "@/components/FaboriteButton";
 
-const DEFAULT_FILTERS: CharacterFilters = { name: "", status: "", gender: "" };
+const DEFAULT_FILTERS: CharacterFilters = {
+  name: "",
+  status: "",
+  gender: "",
+};
 
 export default function CharactersPage() {
   const [data, setData] = useState<CharacterResponse | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [activeFilters, setActiveFilters] = useState(DEFAULT_FILTERS);
+  const [activeFilters, setActiveFilters] =
+    useState<CharacterFilters>(DEFAULT_FILTERS);
 
   const loadPage = useCallback(
     async (page: number, filters: CharacterFilters) => {
       try {
         setIsLoading(true);
+
         const response = await apiCall(page, filters);
+
         setCurrentPage(page);
         setData(response);
         setError(null);
@@ -50,11 +59,23 @@ export default function CharactersPage() {
       </h1>
 
       <div className="mt-6 w-full max-w-5xl px-4 sm:mt-8">
-        <SearchBar placeholder="Search Character" onSearch={handleSearch} />
+        <SearchBar
+          placeholder="Search Character"
+          onSearch={handleSearch}
+        />
       </div>
 
-      {error && <p className="mt-4 text-center text-red-500">{error}</p>}
-      {isLoading && <p className="mt-4 text-center">Loading...</p>}
+      {error && (
+        <p className="mt-4 text-center text-red-500">
+          {error}
+        </p>
+      )}
+
+      {isLoading && (
+        <p className="mt-4 text-center">
+          Loading...
+        </p>
+      )}
 
       {data && (
         <main className="grid w-full max-w-5xl grid-cols-1 gap-4 px-4 py-8 sm:grid-cols-2 sm:py-12 lg:grid-cols-3">
@@ -62,63 +83,27 @@ export default function CharactersPage() {
             <Link
               key={character.id}
               href={`/characters/${character.id}`}
-              className="flex items-center justify-between gap-4 rounded-md border border-gray-300 p-4 shadow-sm"
+              className="rounded-md border border-gray-300 p-4 shadow-sm"
             >
-              <div className="top-3">
-                <FavoriteButton characterId={data.id} />
-              </div>
-              <div className="sm:flex sm:justify-between sm:gap-4 lg:gap-6">
-                <div className="sm:order-last sm:shrink-0">
-                  <Image
-                    loading="eager"
-                    width={240}
-                    height={240}
-                    alt="imamgen"
-                    src={data.image}
-                    className="size-16 rounded-full object-cover sm:size-18"
-                  />
-                </div>
-                <div className="mt-4 sm:mt-0">
-                  <h3 className="text-lg font-medium text-pretty text-white/90">
-                    {data.name}
-                  </h3>
+              {/* Favorite button + image */}
+              <div className="flex items-start justify-between gap-4">
+                <FavoriteButton characterId={character.id} />
 
-                  <p className="mt-1 text-sm text-white/80">
-                    status: {data.status}
-                  </p>
-
-                  <p className="mt-4 line-clamp-2 text-sm text-pretty text-white/70">
-                    Gender: {data.gender}, Species: {data.species}, Origin:
-                    {data.origin.name}, Location: {data.location.name}
-                  </p>
-                </div>
+                <Image
+                  loading="eager"
+                  width={240}
+                  height={240}
+                  alt={character.name}
+                  src={character.image}
+                  className="size-16 shrink-0 rounded-full object-cover sm:size-18"
+                />
               </div>
 
-              <dl className="mt-6 flex gap-4 lg:gap-6">
-                <div className="flex items-center gap-2">
-                  <dt className="text-white/70">
-                    <span className="sr-only"> Published on </span>
-
-                    <svg
-                      aria-hidden="true"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      strokeWidth="1.5"
-                      stroke="currentColor"
-                      className="size-5"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5"
-                      />
-                    </svg>
-                  </dt>
-              <div className="min-w-0">
-                <h2 className="text-lg font-medium break-words text-white/90">
+              {/* Character information */}
+              <div className="mt-4">
+                <h3 className="text-lg font-medium wrap-break-word text-white/90">
                   {character.name}
-                </h2>
+                </h3>
 
                 <p className="mt-2 text-sm text-white/80">
                   Status: {character.status}
@@ -128,18 +113,14 @@ export default function CharactersPage() {
                   Species: {character.species}
                 </p>
 
-                <p className="mt-2 text-sm break-words text-white/70">
+                <p className="mt-2 text-sm wrap-break-word text-white/70">
                   Origin: {character.origin.name}
                 </p>
-              </div>
 
-              <Image
-                width={240}
-                height={240}
-                alt={character.name}
-                src={character.image}
-                className="size-16 shrink-0 rounded-full object-cover"
-              />
+                <p className="mt-2 text-sm wrap-break-word text-white/70">
+                  Location: {character.location.name}
+                </p>
+              </div>
             </Link>
           ))}
         </main>
@@ -150,7 +131,9 @@ export default function CharactersPage() {
           totalPages={data.info.pages}
           currentPage={currentPage}
           isLoading={isLoading}
-          handlePageChange={(page) => loadPage(page, activeFilters)}
+          handlePageChange={(page) =>
+            loadPage(page, activeFilters)
+          }
         />
       )}
     </div>
