@@ -11,6 +11,7 @@ export const Header = () => {
         <CustomLink href="/favorites" linkName="Favorites" />
         <CustomLink href="/characters" linkName="Characters" />
         <CustomLink href="/episodes" linkName="Episodes" />
+        <CustomLink href="/favorites/episodes" linkName="Fav. Episodes" />
       </nav>
     </header>
   );
