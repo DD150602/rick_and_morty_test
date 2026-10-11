@@ -5,6 +5,7 @@ import { EpisodeCard } from "@/components/episodes/EpisodeCard";
 import { EpisodeSearchBar } from "@/components/episodes/EpisodeSearchBar";
 import { MainContainer } from "@/components/MainContainer";
 import { PagesContainer } from "@/components/PagesContainer";
+import { EpisodeFavoriteButton } from "@/components/EpisodeFavoriteButton";
 import { Paginator } from "@/components/Paginator";
 import { type EpisodeFilters, episodeApiCall } from "@/lib/episodes";
 import type { EpisodeResponse } from "@/types/episode";
