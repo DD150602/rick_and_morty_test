@@ -7,7 +7,7 @@ export type EpisodeFilters = {
 
 export const episodeApiCall = async (
   page = 1,
-  filters: EpisodeFilters = { name: "", episode: "" }
+  filters: EpisodeFilters = { name: "", episode: "" },
 ): Promise<EpisodeResponse> => {
   const params = new URLSearchParams({ page: String(page) });
 
@@ -15,7 +15,7 @@ export const episodeApiCall = async (
   if (filters.episode) params.set("episode", filters.episode);
 
   const response = await fetch(
-    `https://rickandmortyapi.com/api/episode?${params.toString()}`
+    `https://rickandmortyapi.com/api/episode?${params.toString()}`,
   );
 
   if (!response.ok) {

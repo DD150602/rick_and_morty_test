@@ -1,12 +1,13 @@
 "use client";
+
 import { useCallback, useEffect, useState } from "react";
-import { Paginator } from "@/components/Paginator";
-import { EpisodeSearchBar } from "@/components/episodes/EpisodeSearchBar";
-import { episodeApiCall, type EpisodeFilters } from "@/lib/episodes";
-import type { EpisodeResponse } from "@/types/episode";
 import { EpisodeCard } from "@/components/episodes/EpisodeCard";
+import { EpisodeSearchBar } from "@/components/episodes/EpisodeSearchBar";
 import { MainContainer } from "@/components/MainContainer";
 import { PagesContainer } from "@/components/PagesContainer";
+import { Paginator } from "@/components/Paginator";
+import { type EpisodeFilters, episodeApiCall } from "@/lib/episodes";
+import type { EpisodeResponse } from "@/types/episode";
 
 const DEFAULT_FILTERS: EpisodeFilters = { name: "", episode: "" };
 

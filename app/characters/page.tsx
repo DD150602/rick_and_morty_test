@@ -1,13 +1,13 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { Paginator } from "@/components/Paginator";
-import { SearchBar } from "@/components/characters/SearchBar";
-import { apiCall, type CharacterFilters } from "@/lib/rickAndMorty";
-import type { CharacterResponse } from "@/types/character";
 import { CharacterCard } from "@/components/characters/CharacterCard";
+import { SearchBar } from "@/components/characters/SearchBar";
 import { MainContainer } from "@/components/MainContainer";
 import { PagesContainer } from "@/components/PagesContainer";
+import { Paginator } from "@/components/Paginator";
+import { apiCall, type CharacterFilters } from "@/lib/rickAndMorty";
+import type { CharacterResponse } from "@/types/character";
 
 const DEFAULT_FILTERS: CharacterFilters = {
   name: "",

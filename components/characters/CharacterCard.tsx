@@ -1,6 +1,6 @@
-import type { Character } from "@/types/character";
 import Image from "next/image";
 import Link from "next/link";
+import type { Character } from "@/types/character";
 import { FavoriteButton } from "../FaboriteButton";
 
 interface CharacterCardProps

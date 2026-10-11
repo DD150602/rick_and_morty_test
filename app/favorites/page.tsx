@@ -1,12 +1,12 @@
 "use client";
 
+import Link from "next/link";
+import { useCallback, useEffect, useState } from "react";
 import { CharacterCard } from "@/components/characters/CharacterCard";
 import { MainContainer } from "@/components/MainContainer";
 import { PagesContainer } from "@/components/PagesContainer";
 import { useFavorites } from "@/hooks/useFavorites";
 import type { Character } from "@/types/character";
-import Link from "next/link";
-import { useCallback, useEffect, useState } from "react";
 
 const FavoritesPage = () => {
   const { favorites } = useFavorites();
