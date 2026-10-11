@@ -1,32 +1,34 @@
-"use client"
+"use client";
 
-import { createContext, useState } from "react"
+import { createContext, useState } from "react";
 
 interface FavoriteContext {
-  favorites: number[]
-  addFavorite: (id: number) => void
-  removeFavorite: (id: number) => void
-  isFavorite: (id: number) => boolean
+  favorites: number[];
+  addFavorite: (id: number) => void;
+  removeFavorite: (id: number) => void;
+  isFavorite: (id: number) => boolean;
 }
 
 interface Props {
   children: React.ReactNode;
 }
 
-export const FavoritesContext = createContext<FavoriteContext | null>(null)
+export const FavoritesContext = createContext<FavoriteContext | null>(null);
 
 export const FavoritesProvider = (props: Props) => {
-  const [favorites, setFavorites] = useState<number[]>([])
-  
+  const [favorites, setFavorites] = useState<number[]>([]);
+
   const addFavorite = (id: number) => {
-    setFavorites(prevState => [...prevState, id])
-  }
+    setFavorites((prevState) => [...prevState, id]);
+  };
 
   const removeFavorite = (id: number) => {
-    setFavorites(prevState => prevState.filter(favoriteId => favoriteId !== id))
-  }
+    setFavorites((prevState) =>
+      prevState.filter((favoriteId) => favoriteId !== id),
+    );
+  };
 
-  const isFavorite = (id: number) => favorites.includes(id)
+  const isFavorite = (id: number) => favorites.includes(id);
 
   return (
     <FavoritesContext.Provider
@@ -34,10 +36,10 @@ export const FavoritesProvider = (props: Props) => {
         favorites,
         addFavorite,
         removeFavorite,
-        isFavorite
+        isFavorite,
       }}
     >
       {props.children}
     </FavoritesContext.Provider>
-  )
-}
+  );
+};
