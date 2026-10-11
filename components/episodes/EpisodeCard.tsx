@@ -1,3 +1,4 @@
+import { EpisodeFavoriteButton } from "@/components/EpisodeFavoriteButton";
 import type { Episode } from "@/types/episode";
 
 interface EpisodeCardProps
@@ -9,9 +10,12 @@ export const EpisodeCard = (props: EpisodeCardProps) => {
       key={props.id}
       className="block rounded-md border border-gray-300 p-4 shadow-sm"
     >
-      <h2 className="text-lg font-medium wrap-break-word text-white/90">
-        {props.name}
-      </h2>
+      <div className="flex items-start justify-between gap-4">
+                    <h2 className="text-lg font-medium `wrap-break-word text-white/90">
+                      {props.name}
+                    </h2>
+                    <EpisodeFavoriteButton episodeId={props.id} className="shrink-0" />
+                  </div>
 
       <p className="mt-2 text-sm text-white/80">Episode: {props.episode}</p>
 

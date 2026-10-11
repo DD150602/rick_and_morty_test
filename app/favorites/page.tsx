@@ -1,8 +1,5 @@
 "use client";
 
-import type { Character } from "@/types/character";
-import { useFavorites } from "@/hooks/useFavorites";
-import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 import { CharacterCard } from "@/components/characters/CharacterCard";

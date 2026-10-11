@@ -70,7 +70,7 @@ export default function FavoriteEpisodesPage() {
               className="rounded-md border border-gray-300 p-4 shadow-sm"
             >
               <div className="flex items-start justify-between gap-4">
-                <h2 className="text-lg font-medium break-words text-white/90">
+                <h2 className="text-lg font-medium `wrap-break-word text-white/90">
                   {episode.name}
                 </h2>
                 <EpisodeFavoriteButton episodeId={episode.id} className="shrink-0" />
