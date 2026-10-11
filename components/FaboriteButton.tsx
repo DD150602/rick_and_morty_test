@@ -22,7 +22,6 @@ export function FavoriteButton({ characterId }: FavoriteButtonProps) {
       aria-label={isFavorite ? "Remove from favorites" : "Add to favorites"}
       className="rounded-full p-2 text-white/50 transition-colors hover:bg-white/10 hover:text-yellow-400"
     >
-      
       <svg
         aria-hidden="true"
         xmlns="http://www.w3.org/2000/svg"
@@ -32,7 +31,6 @@ export function FavoriteButton({ characterId }: FavoriteButtonProps) {
         stroke="currentColor"
         className="size-6"
       >
-        
         <path
           strokeLinecap="round"
           strokeLinejoin="round"

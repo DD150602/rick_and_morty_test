@@ -44,7 +44,7 @@ export default async function CharacterDetailsPage({
 
         <div className="flex min-w-0 flex-1 flex-col gap-4 text-center sm:text-left">
           <div>
-            <h1 className="text-2xl font-bold break-words sm:text-3xl">
+            <h1 className="text-2xl font-bold wrap-break-word sm:text-3xl">
               {character.name}
             </h1>
             <p className="mt-2 text-white/70">
@@ -56,15 +56,15 @@ export default async function CharacterDetailsPage({
           <dl className="grid grid-cols-1 gap-3 text-left text-sm md:grid-cols-2">
             <div className="min-w-0">
               <dt className="text-white/50">Gender</dt>
-              <dd className="break-words">{character.gender}</dd>
+              <dd className="wrap-break-word">{character.gender}</dd>
             </div>
             <div className="min-w-0">
               <dt className="text-white/50">Origin</dt>
-              <dd className="break-words">{character.origin.name}</dd>
+              <dd className="wrap-break-word">{character.origin.name}</dd>
             </div>
             <div className="min-w-0">
               <dt className="text-white/50">Last known location</dt>
-              <dd className="break-words">{character.location.name}</dd>
+              <dd className="wrap-break-word">{character.location.name}</dd>
             </div>
             <div className="min-w-0">
               <dt className="text-white/50">Episodes</dt>

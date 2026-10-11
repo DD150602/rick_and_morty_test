@@ -1,12 +1,11 @@
 "use client";
 
-import Image from "next/image";
-import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
-
-import { FavoriteButton } from "@/components/FaboriteButton";
+import { CharacterCard } from "@/components/characters/CharacterCard";
+import { SearchBar } from "@/components/characters/SearchBar";
+import { MainContainer } from "@/components/MainContainer";
+import { PagesContainer } from "@/components/PagesContainer";
 import { Paginator } from "@/components/Paginator";
-import { SearchBar } from "@/components/SearchBar";
 import { apiCall, type CharacterFilters } from "@/lib/rickAndMorty";
 import type { CharacterResponse } from "@/types/character";
 
@@ -53,89 +52,40 @@ export default function CharactersPage() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center">
-      <h1 className="mt-2 w-full px-4 text-center text-2xl sm:text-3xl">
-        Characters
-      </h1>
-
-      <div className="mt-6 w-full max-w-5xl px-4 sm:mt-8">
-        <SearchBar
-          placeholder="Search Character"
-          onSearch={handleSearch}
-        />
-      </div>
-
-      {error && (
-        <p className="mt-4 text-center text-red-500">
-          {error}
-        </p>
-      )}
-
-      {isLoading && (
-        <p className="mt-4 text-center">
-          Loading...
-        </p>
-      )}
-
+    <PagesContainer
+      title="Characters"
+      searchBar={
+        <SearchBar placeholder="Search Character" onSearch={handleSearch} />
+      }
+      error={error}
+      isLoading={isLoading}
+      paginator={
+        data && (
+          <Paginator
+            totalPages={data.info.pages}
+            currentPage={currentPage}
+            isLoading={isLoading}
+            handlePageChange={(page) => loadPage(page, activeFilters)}
+          />
+        )
+      }
+    >
       {data && (
-        <main className="grid w-full max-w-5xl grid-cols-1 gap-4 px-4 py-8 sm:grid-cols-2 sm:py-12 lg:grid-cols-3">
+        <MainContainer>
           {data.results.map((character) => (
-            <Link
+            <CharacterCard
               key={character.id}
-              href={`/characters/${character.id}`}
-              className="rounded-md border border-gray-300 p-4 shadow-sm"
-            >
-              {/* Favorite button + image */}
-              <div className="flex items-start justify-between gap-4">
-                <FavoriteButton characterId={character.id} />
-
-                <Image
-                  loading="eager"
-                  width={240}
-                  height={240}
-                  alt={character.name}
-                  src={character.image}
-                  className="size-16 shrink-0 rounded-full object-cover sm:size-18"
-                />
-              </div>
-
-              {/* Character information */}
-              <div className="mt-4">
-                <h3 className="text-lg font-medium wrap-break-word text-white/90">
-                  {character.name}
-                </h3>
-
-                <p className="mt-2 text-sm text-white/80">
-                  Status: {character.status}
-                </p>
-
-                <p className="mt-2 text-sm text-white/70">
-                  Species: {character.species}
-                </p>
-
-                <p className="mt-2 text-sm wrap-break-word text-white/70">
-                  Origin: {character.origin.name}
-                </p>
-
-                <p className="mt-2 text-sm wrap-break-word text-white/70">
-                  Location: {character.location.name}
-                </p>
-              </div>
-            </Link>
+              id={character.id}
+              name={character.name}
+              image={character.image}
+              location={character.location}
+              origin={character.origin}
+              species={character.species}
+              status={character.status}
+            />
           ))}
-        </main>
+        </MainContainer>
       )}
-
-      {data && (
-        <Paginator
-          totalPages={data.info.pages}
-          currentPage={currentPage}
-          isLoading={isLoading}
-          handlePageChange={(page) =>
-            loadPage(page, activeFilters)
-          }
-        />
-      )}
-    </div>
+    </PagesContainer>
   );
 }
