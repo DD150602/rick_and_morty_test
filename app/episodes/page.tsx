@@ -1,5 +1,6 @@
 "use client";
 import { useCallback, useEffect, useState } from "react";
+import { EpisodeFavoriteButton } from "@/components/EpisodeFavoriteButton";
 import { Paginator } from "@/components/Paginator";
 import { EpisodeSearchBar } from "@/components/EpisodeSearchBar";
 import { episodeApiCall, type EpisodeFilters } from "@/lib/episodes";
@@ -39,7 +40,9 @@ export default function EpisodesPage() {
 
   return (
     <div className="flex flex-col items-center justify-center">
-      <h1 className="mt-2 text-2xl sm:text-3xl">Episodes</h1>
+      <h1 className="mt-2 w-full px-4 text-center text-2xl sm:text-3xl">
+        Episodes
+      </h1>
 
       <div className="mt-6 w-full max-w-5xl px-4 sm:mt-8">
         <EpisodeSearchBar placeholder="Search Episode" onSearch={handleSearch} />
@@ -52,23 +55,21 @@ export default function EpisodesPage() {
         <main className="grid w-full max-w-5xl grid-cols-1 gap-4 px-4 py-8 sm:grid-cols-2 sm:py-12 lg:grid-cols-3">
           {data.results.map((episode) => (
             <div
-              key={episode.id}
-              className="block rounded-md border border-gray-300 p-4 shadow-sm"
-            >
+            key={episode.id}
+            className="rounded-md border border-gray-300 p-4 shadow-sm"
+          >
+            <div className="flex items-start justify-between gap-4">
               <h2 className="text-lg font-medium break-words text-white/90">
                 {episode.name}
               </h2>
-
-              <p className="mt-2 text-sm text-white/80">
-                Episode: {episode.episode}
-              </p>
-
-              <p className="mt-2 text-sm text-white/70">
-                Air date: {episode.air_date}
-              </p>
+              <EpisodeFavoriteButton episodeId={episode.id} className="shrink-0" />
             </div>
-          ))}
-        </main>
+
+            <p className="mt-2 text-sm text-white/80">Episode: {episode.episode}</p>
+            <p className="mt-2 text-sm text-white/70">Air date: {episode.air_date}</p>
+          </div>
+        ))}
+                </main>
       )}
 
       {data && (
