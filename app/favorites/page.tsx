@@ -9,13 +9,15 @@ import { useFavorites } from "@/hooks/useFavorites";
 import type { Character } from "@/types/character";
 
 const FavoritesPage = () => {
-  const { favorites } = useFavorites();
+  const { favorites, isReady } = useFavorites();
 
   const [characters, setCharacters] = useState<Character[]>([]);
   const [isLoading, setLoading] = useState(true);
   const [errors, setErrors] = useState<string | null>(null);
 
   const loadFavorites = useCallback(async () => {
+    if (!isReady) return;
+
     if (favorites.length === 0) {
       setCharacters([]);
       setLoading(false);
@@ -42,7 +44,7 @@ const FavoritesPage = () => {
     } finally {
       setLoading(false);
     }
-  }, [favorites]);
+  }, [favorites, isReady]);
 
   useEffect(() => {
     loadFavorites();
